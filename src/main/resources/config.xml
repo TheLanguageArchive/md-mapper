@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+  <!-- Parameters: any of these can be overridden via the command line. -->
+  <params>
+    <mapfile>mapfiles/clarin-cmdi-imdiprofile.xml</mapfile>
+    <inputdir>/Users/mac/work/harvested-data/mpi-self-harvest/results/cmdi/The_Language_Archive_s_IMDI_portal</inputdir>
+    <savestats>stats.log</savestats>
+    <!-- The parameter <outputdir>x</outputdir> can be used to set x
+	 as the base directory against which directories in the
+	 outputs section below are resolved.  -->
+  </params>
+
+  <!--
+      Outputs: the directory name is given in the text content. An
+      empty tag means output to stdout instead of a file.
+  -->
+  <outputs>
+    <!-- <output type="simplejson" prettyPrint="true">json-simple</output> -->
+    <!-- <output type="xml" prettyPrint="true">xml</output> -->
+    <output type="ckan3json" prettyPrint="true">json</output>
+  </outputs>
+</config>

@@ -2,7 +2,7 @@
 <config>
   <!-- Parameters: any of these can be overridden via the command line. -->
   <params>
-    <mapfile>mapfiles/clarin-cmdi-imdiprofile.xml</mapfile>
+    <mapfile>mapfiles/clarin-cmdi.xml</mapfile>
     <inputdir>/Users/mac/work/harvested-data/mpi-self-harvest/results/cmdi/The_Language_Archive_s_IMDI_portal</inputdir>
     <savestats>stats.log</savestats>
     <!-- The parameter <outputdir>x</outputdir> can be used to set x

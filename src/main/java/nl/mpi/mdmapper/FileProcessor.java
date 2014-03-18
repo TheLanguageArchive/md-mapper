@@ -46,6 +46,7 @@ public class FileProcessor implements FileVisitor<Path> {
 	this.outputs = outputs;
     }
 
+    @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 	String fileName = file.toString();
 	if (fileName.endsWith(".xml")) {
@@ -65,14 +66,17 @@ public class FileProcessor implements FileVisitor<Path> {
 	return FileVisitResult.CONTINUE;
     }
 
+    @Override
     public FileVisitResult visitFileFailed(Path file, IOException e) throws IOException {
-	e.printStackTrace();
+	logger.error(e);
 	return FileVisitResult.CONTINUE;
     }
 
+    @Override
     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
 	return FileVisitResult.CONTINUE;
     }
+    @Override
     public FileVisitResult postVisitDirectory(Path dir, IOException e) throws IOException {
 	return FileVisitResult.CONTINUE;
     }

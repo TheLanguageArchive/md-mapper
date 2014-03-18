@@ -75,7 +75,7 @@ public class MappingTable {
 	    logger.error("Cannot create parser", eE);
 	}
 
-	mappings = new HashMap<String, List<Mapping>>();
+	mappings = new HashMap<>();
 	readMappings(mapFile);
     }
 

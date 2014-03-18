@@ -57,6 +57,7 @@ public class NSContext implements NamespaceContext {
      * Look up namespace URI based on prefix. Some of the return
      * values are fixed by the XML standard.
      */
+    @Override
     public String getNamespaceURI(String prefix) {
 	//	logger.debug("received request for prefix: " + prefix);
 
@@ -78,6 +79,7 @@ public class NSContext implements NamespaceContext {
      * Look up prefix based on namespace URI. Some of the return
      * values are fixed by the XML standard.
      */
+    @Override
     public String getPrefix(String uri) {
 	//	logger.debug("received request for uri: " + uri);
 
@@ -110,8 +112,9 @@ public class NSContext implements NamespaceContext {
      * prefixes. Hence this method always returns an iterator into a
      * list of one.
      */
+    @Override
     public Iterator getPrefixes(String uri) {
-	List<String> dummy = new ArrayList<String>(1);
+	List<String> dummy = new ArrayList<>(1);
 	dummy.add(getPrefix(uri));
 	return dummy.iterator();
     }

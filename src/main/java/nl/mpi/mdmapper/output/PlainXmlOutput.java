@@ -21,7 +21,6 @@ package nl.mpi.mdmapper.output;
 import org.apache.log4j.Logger;
 
 
-import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -34,7 +33,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import java.util.Map;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -59,8 +57,9 @@ public class PlainXmlOutput implements Output {
 	indent = prettyPrint;
     }
 
+    @Override
     public void save(FacetList fl) {
-	PrintStream out = System.out;
+	PrintStream out;
 	boolean close;
 
 	if (outputDir == null) {
@@ -100,10 +99,8 @@ public class PlainXmlOutput implements Output {
 
 	    transformer.transform(source, result);
 
-	} catch (ParserConfigurationException pce) {
-	    pce.printStackTrace();
-	} catch (TransformerException tfe) {
-	    tfe.printStackTrace();
+	} catch (ParserConfigurationException | TransformerException e) {
+	    logger.error("Error saving XML", e);
 	}
 
 	out.println();

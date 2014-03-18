@@ -23,7 +23,6 @@ import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.PrintStream;
-import java.io.File;
 import java.nio.file.Path;
 
 import java.io.FileNotFoundException;
@@ -48,8 +47,9 @@ public class PlainJsonOutput implements Output {
 	}
     }
 
+    @Override
     public void save(FacetList fl) {
-	PrintStream out = System.out;
+	PrintStream out;
 	boolean close;
 
 	if (outputDir == null) {

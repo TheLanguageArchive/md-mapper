@@ -28,7 +28,7 @@ import org.w3c.dom.Document;
 public abstract class Mapping {
     /**
      * Number of times this mapping has been applied with non-empty
-     * result (for debug / statistics purporses).
+     * result (for debug / statistics purposes).
      */
     protected int numUses;
 
@@ -37,7 +37,7 @@ public abstract class Mapping {
     }
 
     /**
-     * Apply this mapping to the specificed document tree.
+     * Apply this mapping to the specified document tree.
      *
      * @return result of mapping as a string, or the empty string if
      * there is no other result.

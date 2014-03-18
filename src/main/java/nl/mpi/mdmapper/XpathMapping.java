@@ -41,6 +41,7 @@ public class XpathMapping extends Mapping {
 	this.expression = expression;
     }
 
+    @Override
     public String apply(Document doc) {
 	try {
 	    String s = xpath.evaluate(expression, doc);
@@ -55,6 +56,7 @@ public class XpathMapping extends Mapping {
 	return "";
     }
 
+    @Override
     public String toString() {
 	return "XPath '" + expression + "'";
     }

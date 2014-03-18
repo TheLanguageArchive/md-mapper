@@ -71,7 +71,7 @@ public class Configuration {
      * Names of known parameters (remember to edit this when new
      * functionality is added).
      */
-    private static final Set<String> paramNames = new HashSet<String>
+    private static final Set<String> paramNames = new HashSet<>
 	(Arrays.asList(new String[] {"mapfile", "inputdir", "outputdir",
 				     "savestats", "config"} ));
 
@@ -100,13 +100,7 @@ public class Configuration {
 	try {
 	    doc = db.parse(file);
 	    nl = (NodeList)xpath.evaluate("/config/params/*", doc, XPathConstants.NODESET);
-	} catch (SAXException e) {
-	    logger.error(e.getMessage(), e);
-	    return;
-	} catch (XPathExpressionException e) {
-	    logger.error(e.getMessage(), e);
-	    return;
-	} catch (IOException e) {
+	} catch (SAXException | XPathExpressionException | IOException e) {
 	    logger.error(e.getMessage(), e);
 	    return;
 	}

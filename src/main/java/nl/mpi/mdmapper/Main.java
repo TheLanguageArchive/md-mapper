@@ -18,8 +18,6 @@
 
 package nl.mpi.mdmapper;
 
-import nl.mpi.mdmapper.output.Output;
-
 import org.apache.log4j.Logger;
 
 import java.nio.file.Paths;
@@ -28,6 +26,7 @@ import java.nio.file.Files;
 
 import java.io.PrintStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class);
@@ -53,8 +52,7 @@ public class Main {
 		}
 	    }
 	} catch (UnknownParameterException e) {
-	    System.out.println("Error in command line parameter");
-	    e.printStackTrace();
+	    logger.error("Error in command line parameter", e);
 	    System.exit(1);
 	}
 
@@ -64,8 +62,7 @@ public class Main {
 	try {
 	    config.readConfigurationFile();
 	} catch (UnknownParameterException e) {
-	    System.out.println("Error in configuration file");
-	    e.printStackTrace();
+	    logger.error("Error in configuration file", e);
 	    System.exit(1);
 	}
 	process(config);
@@ -81,8 +78,8 @@ public class Main {
 	FileProcessor fp = new FileProcessor(mt, config.getOutputs());
 	try {
 	    Files.walkFileTree(path, fp);
-	} catch (Exception e) {
-	    e.printStackTrace();
+	} catch (IOException e) {
+	    logger.error("Error processing file " + path, e);
 	}
 	logger.info("" + mt.getNumUses() + " records mapped.");
 

@@ -23,7 +23,6 @@ import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.PrintStream;
-import java.io.File;
 import java.nio.file.Path;
 import java.io.FileNotFoundException;
 
@@ -79,6 +78,7 @@ public class Ckan3JsonOutput implements Output {
 	extras.add(tt);
     }
 
+    @Override
     public void save(FacetList fl) {
 	Map rec = new HashMap();
 	for (Map.Entry<String, String> e : fl.res.entrySet()) {
@@ -145,7 +145,7 @@ public class Ckan3JsonOutput implements Output {
 	    }
 	}
 	
-	PrintStream out = System.out;
+	PrintStream out;
 	boolean close;
 
 	if (outputDir == null) {

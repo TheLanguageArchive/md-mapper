@@ -27,17 +27,19 @@ import org.w3c.dom.Document;
  * @author Lari Lampen (MPI-PL)
  */
 public class StringMapping extends Mapping {
-    private String string;
+    private final String string;
 
     public StringMapping(String string) {
 	this.string = string;
     }
 
+    @Override
     public String apply(Document doc) {
 	numUses++;
 	return string;
     }
 
+    @Override
     public String toString() {
 	return "'" + string + "'";
     }

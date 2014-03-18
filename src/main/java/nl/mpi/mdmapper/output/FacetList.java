@@ -37,7 +37,7 @@ public class FacetList {
 
     public FacetList(String source) {
 	this.source = source;
-	res = new HashMap<String, String>();
+	res = new HashMap<>();
     }
 
     public String getSource() {

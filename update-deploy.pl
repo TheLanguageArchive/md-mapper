@@ -103,7 +103,7 @@ unlink $curr if -d $curr;
 my $target = $targetdir . '/' . $hash_mapper;
 
 print "Rebuilding needed; running Maven.\n";
-if (system("mvn clean package assembly:assembly") != 0) {
+if (system("mvn -Dmaven.test.skip=true clean package assembly:assembly") != 0) {
     print "Error: Maven build failed. Deployed mapper has not been modified.\n";
     exit 2;
 }
@@ -122,10 +122,8 @@ if (-d $target) {
 }
 
 mkdir $target;
-#chdir $targetdir;
 
 system("tar xfz $pack -C $targetdir/$hash_mapper") == 0 || die "Error: tar failed";
-#system("tar xfz $pack -C $hash_mapper") == 0 || die "Error: tar failed";
 
 # Find the only directory under $hash_mapper.
 $glob = "$targetdir/$hash_mapper/*";
@@ -139,14 +137,8 @@ symlink $files[0], "$targetdir/current";
 
 print "New version $hash_mapper deployed successfully.\n";
 
-print "@@\n";
-print getcwd(),"\n";
-
-print "ln ",abs_path("$mapdir/mapfiles")," ",abs_path("$targetdir/current/mapfiles"),"\n";
 unless (-f "$target/mapfiles") {
     symlink abs_path("$mapdir/mapfiles"), "$targetdir/current/mapfiles";
 }
-
-print "@@\n";
 
 exit 1;

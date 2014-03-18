@@ -27,10 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Arrays;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -52,7 +48,8 @@ import java.nio.file.Paths;
 
 
 /**
- * Stores configuration parameters for the converter.
+ * This class stores configuration parameters and global variables of
+ * the converter.
  *
  * @author Lari Lampen (MPI-PL)
  */
@@ -63,17 +60,9 @@ public class Configuration {
     private List<Output> outputs;
 
     public Configuration() {
-	params = new HashMap<String, String>();
-	outputs = new ArrayList<Output>();
+	params = new HashMap<>();
+	outputs = new ArrayList<>();
     }
-
-    /**
-     * Names of known parameters (remember to edit this when new
-     * functionality is added).
-     */
-    private static final Set<String> paramNames = new HashSet<>
-	(Arrays.asList(new String[] {"mapfile", "inputdir", "outputdir",
-				     "savestats", "config"} ));
 
     /**
      * Read configuration from config file. Parameters that are
@@ -110,14 +99,6 @@ public class Configuration {
 		|| node.getNodeType() == Node.COMMENT_NODE)
 		continue;
 	    String key = node.getNodeName();
-	    if (!paramNames.contains(key)) {
-		StringBuilder sb = new StringBuilder("Unknown parameter \"");
-		sb.append(key).append("\". Known parameter names: ");
-		String[] vals = paramNames.toArray(new String[paramNames.size()]);
-		for (String s : vals)
-		    sb.append(s).append(" ");
-		throw new UnknownParameterException(sb.toString());
-	    }
 	    if (!params.containsKey(key))
 		params.put(key, node.getTextContent());
 	}
@@ -175,16 +156,8 @@ public class Configuration {
     /**
      * Set a parameter to a specified value, overriding previous value.
      */
-    public void setParam(String key, String value) throws UnknownParameterException {
+    public void setParam(String key, String value) {
 	if (key == null) return;
-	if (!paramNames.contains(key)) {
-	    StringBuilder sb = new StringBuilder("Unknown parameter \"");
-	    sb.append(key).append("\". Known parameter names: ");
-	    String[] vals = paramNames.toArray(new String[paramNames.size()]);
-	    for (String s : vals)
-		sb.append(s).append(" ");
-	    throw new UnknownParameterException(sb.toString());
-	}
 	params.put(key, value);
     }
 

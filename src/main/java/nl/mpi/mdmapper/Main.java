@@ -40,20 +40,15 @@ public class Main {
 
 	// Configuration parameters can be given with 'key=value'
 	// strings. Parse them first.
-	try {
-	    for (String arg : args) {
-		if (arg.contains("=")) {
-		    String[] tmp=arg.split("=");
-		    if (tmp.length == 1) {
-			config.setParam(tmp[0], "");
-		    } else if (tmp.length >= 2) {
-			config.setParam(tmp[0], tmp[1]);
-		    }
+	for (String arg : args) {
+	    if (arg.contains("=")) {
+		String[] tmp=arg.split("=");
+		if (tmp.length == 1) {
+		    config.setParam(tmp[0], "");
+		} else if (tmp.length >= 2) {
+		    config.setParam(tmp[0], tmp[1]);
 		}
 	    }
-	} catch (UnknownParameterException e) {
-	    logger.error("Error in command line parameter", e);
-	    System.exit(1);
 	}
 
 	// Read the configuration file (which is either config.xml, or
@@ -70,7 +65,7 @@ public class Main {
 
     public static void process(Configuration config) {
 	String dirName = config.getInputdir();
-	MappingTable mt = new MappingTable(config.getMapfile());
+	MappingTable mt = new MappingTable(config.getMapfile(), config);
 
 	logger.info("Processing files in " + dirName + ".");
 	// Actually process all the files.

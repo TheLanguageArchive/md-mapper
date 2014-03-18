@@ -9,4 +9,4 @@ for x in lib/*.jar ; do
   y=${y}:${x}
 done
 
-nice java -cp ${y} -jar ${JAR} $*
+nice java -cp ${y} -jar ${JAR} mapper_version=${mapper_version} $*

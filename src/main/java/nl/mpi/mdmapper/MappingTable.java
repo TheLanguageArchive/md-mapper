@@ -58,11 +58,14 @@ public class MappingTable {
     private Map<String, List<Mapping>> mappings;
     private XPath xpath;
     private DocumentBuilder db;
+    private Configuration config;
 
     /** How many documents have been processed (for statistics). */
     private int numUses;
 
-    public MappingTable(String mapFile) {
+    public MappingTable(String mapFile, Configuration config) {
+	this.config = config;
+
 	numUses = 0;
 
 	// Initialise the XPath processing paraphernalia.
@@ -148,7 +151,16 @@ public class MappingTable {
 		if ("xpath".equals(t.getNodeName())) {
 		    newMapping = new XpathMapping(xpath, t.getTextContent());
 		} else if ("string".equals(t.getNodeName())) {
-		    newMapping = new StringMapping(t.getTextContent());
+		    NamedNodeMap attr2 = t.getAttributes();
+		    Node expNode = attr2.getNamedItem("expand");
+		    boolean expand;
+		    if (expNode == null) {
+			expand = false;
+		    } else {
+			expand = Boolean.valueOf(expNode.getNodeValue());
+		    }
+		    newMapping = new StringMapping(t.getTextContent(),
+			    expand ? config : null);
 		} else {
 		    logger.info("Unsure how to handle element '" + t.getNodeName() + "', skipping.");
 		    continue;
@@ -157,7 +169,7 @@ public class MappingTable {
 		logger.debug("Adding "+fieldName);
 		List<Mapping> mapList = mappings.get(fieldName);
 		if (mapList == null) {
-		    mapList = new ArrayList<Mapping>();
+		    mapList = new ArrayList<>();
 		    mappings.put(fieldName, mapList);
 		}
 		mapList.add(newMapping);

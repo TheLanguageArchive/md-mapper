@@ -63,10 +63,14 @@ public class MappingTable {
     /** How many documents have been processed (for statistics). */
     private int numUses;
 
+    /** How many documents have caused an error (for statistics). */
+    private int numErrors;
+
     public MappingTable(String mapFile, Configuration config) {
 	this.config = config;
 
 	numUses = 0;
+	numErrors = 0;
 
 	// Initialise the XPath processing paraphernalia.
 	XPathFactory factory = XPathFactory.newInstance();
@@ -180,17 +184,31 @@ public class MappingTable {
     public FacetList applyMappings(Document doc, String filename) {
 	FacetList result = new FacetList(filename);
 	numUses++;
+	// Note: the error counter indicates number of metadata
+	// records with an error. So if multiple errors occur while
+	// processing a single record, the error counter is only
+	// incremented once.
+	boolean error = false;
 
 	for (Map.Entry<String, List<Mapping>> me : mappings.entrySet()) {
 	    List<Mapping> mapList = me.getValue();
 	    for (Mapping m : mapList) {
-		String s = m.apply(doc);
+		String s = null;
+		try {
+		    s = m.apply(doc);
+		} catch (MappingException e) {
+		    error = true;
+		    logger.error(e);
+		    break;
+		}
 		if (!s.isEmpty()) {
 		    result.add(me.getKey(), s);
 		    break;
 		}
 	    }
 	}
+	if (error) numErrors++;
+
 	return result;
     }
 
@@ -200,6 +218,9 @@ public class MappingTable {
 
     public int getNumUses() {
 	return numUses;
+    }
+    public int getErrors() {
+	return numErrors;
     }
 
     /**

@@ -42,7 +42,7 @@ public class XpathMapping extends Mapping {
     }
 
     @Override
-    public String apply(Document doc) {
+    public String apply(Document doc) throws MappingException {
 	try {
 	    String s = xpath.evaluate(expression, doc);
 	    s = s.trim();
@@ -52,6 +52,7 @@ public class XpathMapping extends Mapping {
 	    }
 	} catch (XPathExpressionException e) {
 	    logger.error("XPath error (here: " + expression +"), skipping", e);
+	    throw new MappingException(e.getMessage());
 	}
 	return "";
     }

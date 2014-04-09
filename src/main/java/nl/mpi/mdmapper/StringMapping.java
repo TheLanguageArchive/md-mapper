@@ -65,7 +65,7 @@ public class StringMapping extends Mapping {
     }
 
     @Override
-    public String apply(Document doc) {
+    public String apply(Document doc) throws MappingException {
 	numUses++;
 	return expand(string, vars);
     }

@@ -18,37 +18,14 @@
 
 package nl.mpi.mdmapper;
 
-import org.w3c.dom.Document;
-
 /**
- * A mapping rule for an individual field (facet).
+ * Any exception caused while trying a perform a mapping (of a single
+ * field).
  *
  * @author Lari Lampen (MPI-PL)
  */
-public abstract class Mapping {
-    /**
-     * Number of times this mapping has been applied with non-empty
-     * result (for debug / statistics purposes).
-     */
-    protected int numUses;
-
-    protected Mapping() {
-	numUses = 0;
-    }
-
-    /**
-     * Apply this mapping to the specified document tree.
-     *
-     * @return result of mapping as a string, or the empty string if
-     * there is no other result.
-     */
-    public abstract String apply(Document doc) throws MappingException;
-
-    /**
-     * Get number of times this mapping has been applied with
-     * non-empty result.
-     */
-    public int getNumUses() {
-	return numUses;
+public class MappingException extends Exception {
+    public MappingException(String message) {
+        super(message);
     }
 }

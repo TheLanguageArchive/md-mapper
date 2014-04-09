@@ -76,7 +76,7 @@ public class Main {
 	} catch (IOException e) {
 	    logger.error("Error processing file " + path, e);
 	}
-	logger.info("" + mt.getNumUses() + " records mapped.");
+	logger.info("" + mt.getNumUses() + " records mapped; " + mt.getErrors()+ " records caused error(s).");
 
 	// Processing completed; save statistics, if required.
 	String stat = config.getSavestats();

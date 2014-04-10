@@ -11,11 +11,13 @@ harvested using the OAI-PMH protocol.
 This is a Maven project, and therefore requires Apache Maven. It can
 be built simply using the command:
 
-  mvn clean package assembly:assembly
+```
+mvn clean package assembly:assembly
+```
 
 Running the above creates a package named
-'converter-0.1.1024-deploy.tar.gz' (subject to changing version number
-of course). See below for installation details.
+`md-mapper-0.1.317f94.tar.gz` (subject to changing version number of
+course). See below for installation details.
 
 If you use a Java IDE, it is highly likely it offers a simple way to
 do the above. Note that this project requires Java Development Kit

@@ -154,7 +154,7 @@ public class Ckan3JsonOutput implements Output {
 	} else {
 	    close = true;
 	    try {
-		out = new PrintStream(outputDir.resolve(fl.getSource().replaceAll("xml$", "") + "json").toFile());
+		out = new PrintStream(outputDir.resolve(fl.getSourceShort().replaceAll("xml$", "") + "json").toFile());
 	    } catch (FileNotFoundException e) {
 		logger.error(e.getMessage(), e);
 		return;

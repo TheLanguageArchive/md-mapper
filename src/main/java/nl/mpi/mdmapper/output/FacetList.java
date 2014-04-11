@@ -40,6 +40,14 @@ public class FacetList {
 	res = new HashMap<>();
     }
 
+    public String getSourceShort() {
+	if (source != null) {
+	    int idx = source.lastIndexOf(System.getProperty("file.separator"));
+	    if (idx >= 0)
+		return source.substring(idx+1);
+	}
+	return source;
+    }
     public String getSource() {
 	return source;
     }

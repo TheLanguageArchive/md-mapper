@@ -74,7 +74,7 @@ public class PlainXmlOutput implements Output {
 	} else {
 	    close = true;
 	    try {
-		out = new PrintStream(outputDir.resolve(fl.getSource()).toFile());
+		out = new PrintStream(outputDir.resolve(fl.getSourceShort()).toFile());
 	    } catch (FileNotFoundException e) {
 		logger.error(e.getMessage(), e);
 		return;

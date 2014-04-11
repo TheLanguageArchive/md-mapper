@@ -18,6 +18,8 @@
 
 package nl.mpi.mdmapper;
 
+import nl.mpi.mdmapper.output.FacetList;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 
 /**
@@ -26,6 +28,8 @@ import org.w3c.dom.Document;
  * @author Lari Lampen (MPI-PL)
  */
 public abstract class Mapping {
+    private static final Logger logger = Logger.getLogger(Mapping.class);
+
     /**
      * Number of times this mapping has been applied with non-empty
      * result (for debug / statistics purposes).
@@ -44,6 +48,29 @@ public abstract class Mapping {
      * there is no other result.
      */
     public abstract String apply(Document doc) throws MappingException;
+
+    /**
+     * Apply mapping to the specified document and add result
+     * to the given facet list.
+     *
+     * @param doc DOM tree representing a metadata record
+     * @param facetName name of target facet in the facet list
+     * @param fl facet list to which the result is to be added
+     * @return true on success, false on error
+     */
+    public boolean mapAndAdd(Document doc, String facetName, FacetList fl) {
+	String s;
+	try {
+	    s = apply(doc);
+	} catch (MappingException e) {
+	    logger.error(e);
+	    return false;
+	}
+	if (!s.isEmpty()) {
+	    fl.add(facetName, s);
+	}
+	return true;
+    }
 
     /**
      * Get number of times this mapping has been applied with

@@ -44,6 +44,7 @@ import java.io.PrintStream;
 import java.text.DecimalFormat;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import org.xml.sax.SAXException;
 
 /**
@@ -185,8 +186,8 @@ public class MappingTable {
 	}
     }
 
-    public FacetList applyMappings(Document doc, String filename) {
-	FacetList result = new FacetList(filename);
+    public FacetList applyMappings(Document doc, Path inFile) {
+	FacetList result = new FacetList(inFile.toString());
 	numUses++;
 	// Note: the error counter indicates number of metadata
 	// records with an error. So if multiple errors occur while
@@ -197,18 +198,8 @@ public class MappingTable {
 	for (Map.Entry<String, List<Mapping>> me : mappings.entrySet()) {
 	    List<Mapping> mapList = me.getValue();
 	    for (Mapping m : mapList) {
-		String s;
-		try {
-		    s = m.apply(doc);
-		} catch (MappingException e) {
+		if (!m.mapAndAdd(doc, me.getKey(), result))
 		    error = true;
-		    logger.error(e);
-		    break;
-		}
-		if (!s.isEmpty()) {
-		    result.add(me.getKey(), s);
-		    break;
-		}
 	    }
 	}
 	if (error) numErrors++;
@@ -216,8 +207,8 @@ public class MappingTable {
 	return result;
     }
 
-    public FacetList applyMappings(File inFile) throws IOException, SAXException {
-	return applyMappings(db.parse(inFile), inFile.getName());
+    public FacetList applyMappings(Path inFile) throws IOException, SAXException {
+	return applyMappings(db.parse(inFile.toFile()), inFile);
     }
 
     public int getNumUses() {

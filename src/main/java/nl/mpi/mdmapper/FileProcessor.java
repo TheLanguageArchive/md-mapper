@@ -58,7 +58,7 @@ public class FileProcessor implements FileVisitor<Path> {
 	if (fileName.endsWith(".xml")) {
 	    logger.info("Processing: " + file);
 	    try {
-		FacetList fl = mappings.applyMappings(file.toFile());
+		FacetList fl = mappings.applyMappings(file);
 		for (Output o : outputs) {
 		    o.save(fl);
 		}

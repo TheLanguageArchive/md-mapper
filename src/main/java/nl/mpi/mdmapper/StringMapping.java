@@ -20,6 +20,7 @@ package nl.mpi.mdmapper;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import nl.mpi.mdmapper.output.FacetList;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 
@@ -65,15 +66,50 @@ public class StringMapping extends Mapping {
     }
 
     @Override
+    public boolean mapAndAdd(Document doc, String facetName, FacetList fl) {
+	String s;
+	try {
+	    s = apply(doc, fl);
+	} catch (MappingException e) {
+	    logger.error(e);
+	    return false;
+	}
+	if (!s.isEmpty()) {
+	    fl.add(facetName, s);
+	}
+	return true;
+    }
+
+    @Override
     public String apply(Document doc) throws MappingException {
-	numUses++;
-	return expand(string, vars);
+	return apply(doc, null);
     }
 
     /**
-     * Perform variable expansion on the string (syntax is ${var}).
+     * Apply this mapping to the specified document tree.
+     *
+     * @param doc DOM tree representing a metadata record
+     * @param fl facet list representing the source context
+     * @return result of mapping as a string, or the empty string if
+     * there is no other result.
      */
-    public static String expand(String str, Configuration variables) {
+    public String apply(Document doc, FacetList fl) throws MappingException {
+	numUses++;
+	return expand(string, vars, fl);
+    }
+
+    /**
+     * Perform variable expansion on the string (syntax is ${var}). As a
+     * special case, ${filename} expands into the name, with full path,
+     * of the input file.
+     *
+     * @param str base string
+     * @param variables map of variable names and values
+     * @param fl facet list (used to get filename only)
+     * @return expanded string
+     */
+    public static String expand(String str, Configuration variables,
+	    FacetList fl) {
 	if (variables == null || str == null)
 	    return str;
 
@@ -86,7 +122,12 @@ public class StringMapping extends Mapping {
 		break;
 
 	    String varName = m.group(1);
-	    String val = variables.getParam(varName);
+	    String val;
+	    if ("filename".equals(varName) && fl != null) {
+		val = fl.getSource();
+	    } else {
+		val = variables.getParam(varName);
+	    }
 	    res = res.replace(m.group(0), (val == null) ? "" : val);
 	}
 	return res;

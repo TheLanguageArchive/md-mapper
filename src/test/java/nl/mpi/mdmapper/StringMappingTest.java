@@ -24,7 +24,7 @@ public class StringMappingTest {
 	conf.setParam("test1", "xyz");
 	String str = "Strings: $1 ${test1}, ${test1} again, and nonexistent ${test2}.";
 	String expected = "Strings: $1 xyz, xyz again, and nonexistent .";
-	String result = StringMapping.expand(str, conf);
+	String result = StringMapping.expand(str, conf, null);
 	assertEquals(expected, result);
     }
 }

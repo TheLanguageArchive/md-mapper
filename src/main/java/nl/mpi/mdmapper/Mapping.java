@@ -39,6 +39,7 @@ public abstract class Mapping {
     /**
      * Apply this mapping to the specified document tree.
      *
+     * @param doc DOM tree representing a metadata record
      * @return result of mapping as a string, or the empty string if
      * there is no other result.
      */
@@ -47,6 +48,8 @@ public abstract class Mapping {
     /**
      * Get number of times this mapping has been applied with
      * non-empty result.
+     *
+     * @return number of uses of this mapping
      */
     public int getNumUses() {
 	return numUses;

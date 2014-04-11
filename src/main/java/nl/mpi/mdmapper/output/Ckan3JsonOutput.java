@@ -60,7 +60,7 @@ public class Ckan3JsonOutput implements Output {
      * fields can be put on the base level of the JSON record, while
      * any other fields must be stored inside the 'extras' structure.
      */
-    private static final Set<String> internal = new HashSet<String>
+    private static final Set<String> internal = new HashSet<>
 	(Arrays.asList(new String[] {"author", "maintainer", "title", "name", "version",
 				     "url", "notes", "tags", "status", "id", "group"} ));
 
@@ -72,7 +72,7 @@ public class Ckan3JsonOutput implements Output {
 	} else {
 	    extras = (List)rec.get("extras");
 	}
-	Map tt = new HashMap<String, String>();
+	Map tt = new HashMap<>();
 	tt.put("key", key);
 	tt.put("value", value);
 	extras.add(tt);
@@ -97,7 +97,7 @@ public class Ckan3JsonOutput implements Output {
 		}
 		String[] parts = value.split(",");
 		for (String part : parts) {
-		    Map tt = new HashMap<String, String>();
+		    Map tt = new HashMap<>();
 		    tt.put("name", part);
 		    tags.add(tt);
 		}

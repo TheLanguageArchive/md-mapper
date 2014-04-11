@@ -119,6 +119,8 @@ public class NSContext implements NamespaceContext {
     /**
      * Get list of prefixes bound to a namespace URI. Some of the return values
      * are fixed by the XML standard.
+     * 
+     * @param uri namespace URI
      */
     @Override
     public Iterator getPrefixes(String uri) {

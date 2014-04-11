@@ -52,6 +52,12 @@ public class PlainXmlOutput implements Output {
     private Path outputDir;
     private boolean indent;
 
+    /**
+     * Create new output object for plain XML.
+     *
+     * @param prettyPrint whether to indent output for readability
+     * @param outputDir  output directory
+     */
     public PlainXmlOutput(boolean prettyPrint, Path outputDir) {
 	this.outputDir = outputDir;
 	indent = prettyPrint;

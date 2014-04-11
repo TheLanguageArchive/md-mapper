@@ -28,6 +28,11 @@ import java.io.PrintStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * This is the main class of the mapper, featuring the entry point.
+ *
+ * @author Lari Lampen (MPI-PL)
+ */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class);
 
@@ -63,6 +68,11 @@ public class Main {
 	process(config);
     }
 
+    /**
+     * Perform the mappings specified in the given configuration object.
+     *
+     * @param config configuration state object
+     */
     public static void process(Configuration config) {
 	String dirName = config.getInputdir();
 	MappingTable mt = new MappingTable(config.getMapfile(), config);

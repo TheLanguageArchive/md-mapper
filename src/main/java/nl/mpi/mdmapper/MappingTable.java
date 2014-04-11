@@ -152,22 +152,26 @@ public class MappingTable {
 		    || t.getNodeType() == Node.COMMENT_NODE)
 		    continue;
 		Mapping newMapping;
-		if ("xpath".equals(t.getNodeName())) {
-		    newMapping = new XpathMapping(xpath, t.getTextContent());
-		} else if ("string".equals(t.getNodeName())) {
-		    NamedNodeMap attr2 = t.getAttributes();
-		    Node expNode = attr2.getNamedItem("expand");
-		    boolean expand;
-		    if (expNode == null) {
-			expand = false;
-		    } else {
-			expand = Boolean.valueOf(expNode.getNodeValue());
-		    }
-		    newMapping = new StringMapping(t.getTextContent(),
-			    expand ? config : null);
-		} else {
-		    logger.info("Unsure how to handle element '" + t.getNodeName() + "', skipping.");
-		    continue;
+		switch (t.getNodeName()) {
+		    case "xpath":
+			newMapping = new XpathMapping(xpath, t.getTextContent());
+			break;
+		    case "string":
+			NamedNodeMap attr2 = t.getAttributes();
+			Node expNode = attr2.getNamedItem("expand");
+			boolean expand;
+			if (expNode == null) {
+			    expand = false;
+			} else {
+			    expand = Boolean.valueOf(expNode.getNodeValue());
+			}
+			newMapping = new StringMapping(t.getTextContent(),
+				expand ? config : null);
+			break;
+		    default:
+			logger.info("Unsure how to handle element '"
+				+ t.getNodeName() + "', skipping.");
+			continue;
 		}
 
 		logger.debug("Adding "+fieldName);
@@ -193,7 +197,7 @@ public class MappingTable {
 	for (Map.Entry<String, List<Mapping>> me : mappings.entrySet()) {
 	    List<Mapping> mapList = me.getValue();
 	    for (Mapping m : mapList) {
-		String s = null;
+		String s;
 		try {
 		    s = m.apply(doc);
 		} catch (MappingException e) {

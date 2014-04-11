@@ -59,6 +59,7 @@ public class Configuration {
     private Map<String, String> params;
     private List<Output> outputs;
 
+    /** Create an empty configuration object. */
     public Configuration() {
 	params = new HashMap<>();
 	outputs = new ArrayList<>();
@@ -75,15 +76,16 @@ public class Configuration {
 	    file = "config.xml";
 	XPathFactory factory = XPathFactory.newInstance();
 	XPath xpath = factory.newXPath();
-	DocumentBuilder db = null;
+	DocumentBuilder db;
 	try {
 	    DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
 	    db = fac.newDocumentBuilder();
 	} catch (ParserConfigurationException eE) {
 	    logger.error("Cannot create parser", eE);
+	    return;
 	}
-	Document doc = null;
-	NodeList nl = null;
+	Document doc;
+	NodeList nl;
 
 	// Read and store parameters.
 	try {
@@ -140,12 +142,17 @@ public class Configuration {
 		    }
 		}
 		Output o;
-		if (type.equals("simplejson"))
-		    o = new nl.mpi.mdmapper.output.PlainJsonOutput(pp, dir);
-		else if (type.equals("ckan3json"))
-		    o = new nl.mpi.mdmapper.output.Ckan3JsonOutput(pp, dir);
-		else
-		    o = new nl.mpi.mdmapper.output.PlainXmlOutput(pp, dir);
+		switch (type) {
+		    case "simplejson":
+			o = new nl.mpi.mdmapper.output.PlainJsonOutput(pp, dir);
+			break;
+		    case "ckan3json":
+			o = new nl.mpi.mdmapper.output.Ckan3JsonOutput(pp, dir);
+			break;
+		    default:
+			o = new nl.mpi.mdmapper.output.PlainXmlOutput(pp, dir);
+			break;
+		}
 		outputs.add(o);
 	    } else {
 		logger.error("Unknown output type "+type);

@@ -41,6 +41,12 @@ public class FileProcessor implements FileVisitor<Path> {
     private MappingTable mappings;
     private Output[] outputs;
 
+    /**
+     * Create a new FileProcessor object.
+     *
+     * @param mappings table of semantic mappings
+     * @param outputs list of output destinations
+     */
     public FileProcessor(MappingTable mappings, Output[] outputs) {
 	this.mappings = mappings;
 	this.outputs = outputs;

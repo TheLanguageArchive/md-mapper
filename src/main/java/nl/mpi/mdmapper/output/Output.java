@@ -28,5 +28,5 @@ public interface Output {
      * Serialise the facet list into a file or stream (as defined by
      * each subclass).
      */
-    public void save(FacetList fl);
+    void save(FacetList fl);
 }

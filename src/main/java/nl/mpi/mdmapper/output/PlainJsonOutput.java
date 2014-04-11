@@ -38,6 +38,12 @@ public class PlainJsonOutput implements Output {
     private Path outputDir;
     private Gson gson;
 
+    /**
+     * Create new output object for plain JSON.
+     *
+     * @param prettyPrint whether to indent output for readability
+     * @param outputDir  output directory
+     */
     public PlainJsonOutput(boolean prettyPrint, Path outputDir) {
 	this.outputDir = outputDir;
 	if (prettyPrint) {

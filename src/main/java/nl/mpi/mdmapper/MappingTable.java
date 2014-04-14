@@ -39,7 +39,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
-import java.io.File;
 import java.io.PrintStream;
 import java.text.DecimalFormat;
 
@@ -197,9 +196,14 @@ public class MappingTable {
 
 	for (Map.Entry<String, List<Mapping>> me : mappings.entrySet()) {
 	    List<Mapping> mapList = me.getValue();
-	    for (Mapping m : mapList) {
-		if (!m.mapAndAdd(doc, me.getKey(), result))
-		    error = true;
+	    try {
+		for (Mapping m : mapList) {
+		    if (m.mapAndAdd(doc, me.getKey(), result))
+			break;
+		}
+	    } catch (MappingException ex) {
+		logger.error(ex);
+		error = true;
 	    }
 	}
 	if (error) numErrors++;

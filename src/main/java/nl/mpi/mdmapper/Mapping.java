@@ -56,20 +56,18 @@ public abstract class Mapping {
      * @param doc DOM tree representing a metadata record
      * @param facetName name of target facet in the facet list
      * @param fl facet list to which the result is to be added
-     * @return true on success, false on error
+     * @return true if mapping mathced, false otherwise
+     * @throws nl.mpi.mdmapper.MappingException on any error
      */
-    public boolean mapAndAdd(Document doc, String facetName, FacetList fl) {
-	String s;
-	try {
-	    s = apply(doc);
-	} catch (MappingException e) {
-	    logger.error(e);
-	    return false;
-	}
+    public boolean mapAndAdd(Document doc, String facetName, FacetList fl)
+	    throws MappingException {
+	String s  = apply(doc);
+
 	if (!s.isEmpty()) {
 	    fl.add(facetName, s);
+	    return true;
 	}
-	return true;
+	return false;
     }
 
     /**

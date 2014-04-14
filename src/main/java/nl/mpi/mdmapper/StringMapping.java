@@ -66,18 +66,15 @@ public class StringMapping extends Mapping {
     }
 
     @Override
-    public boolean mapAndAdd(Document doc, String facetName, FacetList fl) {
-	String s;
-	try {
-	    s = apply(doc, fl);
-	} catch (MappingException e) {
-	    logger.error(e);
-	    return false;
-	}
+    public boolean mapAndAdd(Document doc, String facetName, FacetList fl)
+	    throws MappingException {
+	String s = apply(doc, fl);
+
 	if (!s.isEmpty()) {
 	    fl.add(facetName, s);
+	    return true;
 	}
-	return true;
+	return false;
     }
 
     @Override

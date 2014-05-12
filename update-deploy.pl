@@ -135,7 +135,7 @@ if (scalar @files != 1) {
 
 symlink $files[0], "$targetdir/current";
 
-print "New version $hash_mapper deployed successfully.\n";
+print "New version $hash_mapper deployed successfully; see $targetdir/current.\n";
 
 unless (-f "$target/mapfiles") {
     symlink abs_path("$mapdir/mapfiles"), "$targetdir/current/mapfiles";
